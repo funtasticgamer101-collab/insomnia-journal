@@ -1,0 +1,234 @@
+:root {
+    --bg-dark: #0a0a0a;
+    --journal-dark: #121010;
+    --text-light: #e0d8c8;
+    --text-muted: #8a8377;
+    --border-color: rgba(224, 216, 200, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Cormorant Garamond', serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- RGB Ambient Glow Effect --- */
+@keyframes rgbShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.ambient-glow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120vw;
+    height: 120vh;
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+    background-size: 800% 800%;
+    animation: rgbShift 25s ease-in-out infinite;
+    filter: blur(80px);
+    opacity: 0.15; /* Moody and subtle */
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rgb-text {
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+    background-size: 800% 800%;
+    animation: rgbShift 25s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Journal Container --- */
+.journal-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+    background: var(--journal-dark);
+    /* Subtle noise texture for leather/paper feel */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    border-radius: 12px;
+    padding: 30px 20px;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+/* --- Navigation --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.tab-btn.active {
+    color: var(--text-light);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, #ff0000, #00ff00, #0000ff) 1;
+    animation: rgbBorder 10s linear infinite;
+}
+
+@keyframes rgbBorder {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.tab-content {
+    display: none;
+    flex-direction: column;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+/* --- Buttons & Forms --- */
+.action-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.action-btn:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.install-btn {
+    position: absolute;
+    top: -10px;
+    right: 0;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-light);
+    padding: 5px 10px;
+    font-family: 'Cormorant Garamond', serif;
+    border-radius: 4px;
+    cursor: pointer;
+    animation: rgbBorder 10s linear infinite;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-container.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.journal-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--text-muted);
+    color: var(--text-light);
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    padding: 10px 5px;
+    resize: none;
+    outline: none;
+}
+
+.journal-input::placeholder {
+    color: rgba(138, 131, 119, 0.5);
+}
+
+.journal-input option {
+    background: var(--journal-dark);
+    color: var(--text-light);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* --- Entries --- */
+.entries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.entry-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 2px solid transparent;
+    border-image: linear-gradient(to bottom, #ff0000, #0000ff) 1;
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+    animation: rgbBorder 15s linear infinite;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 5px;
+}
+
+.entry-mood {
+    font-style: italic;
+    color: #b5a892;
+}
+
+.entry-text {
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
